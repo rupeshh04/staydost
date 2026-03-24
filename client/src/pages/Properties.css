@@ -1,0 +1,15 @@
+.page-title {
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 4px;
+}
+.page-subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 0; }
+
+.properties-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+}

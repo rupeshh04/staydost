@@ -1,0 +1,109 @@
+.al-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--secondary) 0%, #152845 100%);
+  padding: 24px;
+}
+
+.al-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+
+.al-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.al-brand-icon { font-size: 28px; }
+.al-brand-name { font-size: 22px; font-weight: 800; color: var(--secondary); }
+.al-brand-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--primary);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.al-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--secondary);
+  text-align: center;
+  margin-bottom: 4px;
+}
+.al-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.al-form { display: flex; flex-direction: column; gap: 4px; }
+
+.al-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.al-input-icon {
+  position: absolute;
+  left: 13px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 1;
+}
+.al-input {
+  padding-left: 38px !important;
+}
+.al-toggle-pwd {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 15px;
+  padding: 4px;
+  line-height: 1;
+}
+.al-toggle-pwd:hover { color: var(--secondary); }
+
+.al-error {
+  color: var(--danger);
+  font-size: 13.5px;
+  background: #fff5f5;
+  border: 1px solid #ffd6d6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 4px;
+}
+
+.al-btn {
+  width: 100%;
+  font-size: 16px;
+  padding: 13px;
+  margin-top: 8px;
+}
+
+.al-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 20px;
+  padding: 10px;
+  background: var(--hover-bg);
+  border-radius: 8px;
+}

@@ -1,0 +1,202 @@
+/* ===== Contact Page ===== */
+.contact-hero {
+  background: linear-gradient(135deg, var(--secondary) 0%, #2d4e7e 100%);
+  color: #fff;
+  padding: 60px 0 48px;
+  text-align: center;
+}
+.contact-hero-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.contact-hero-sub {
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  align-items: start;
+}
+
+/* Info cards */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-info-card {
+  background: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.contact-info-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--secondary);
+  margin: 8px 0 4px;
+}
+.contact-info-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.contact-info-icon {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.btn-wa-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-wa-small:hover { background: #1ebe58; color: #fff; }
+
+.btn-outline-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--secondary);
+  border: 1.5px solid var(--secondary);
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-outline-small:hover { background: var(--secondary); color: #fff; }
+
+.contact-hours-card {
+  background: var(--hover-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  padding: 20px;
+}
+.contact-hours-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 12px;
+}
+.contact-hours-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.contact-hours-row:last-child { border-bottom: none; }
+
+/* Form */
+.contact-form-wrap {
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  padding: 32px;
+  box-shadow: var(--shadow-md);
+}
+.contact-form-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 4px;
+}
+.contact-form-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contact-error {
+  color: var(--danger);
+  font-size: 13.5px;
+  margin-bottom: 8px;
+}
+
+.contact-submit {
+  width: 100%;
+  font-size: 16px;
+  padding: 13px;
+}
+
+/* Success state */
+.contact-success {
+  text-align: center;
+  padding: 32px 16px;
+}
+.contact-success-icon { font-size: 48px; margin-bottom: 12px; }
+.contact-success h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 8px;
+}
+.contact-success p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-wa-full {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: #25d366;
+  color: #fff;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-wa-full:hover { background: #1ebe58; color: #fff; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+  .contact-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .contact-info { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .contact-form-wrap { padding: 20px 16px; }
+}
