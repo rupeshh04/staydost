@@ -30,3 +30,5 @@ backend/uploads/
 
 # Coverage
 coverage/
+.vercel
+.env*.local
