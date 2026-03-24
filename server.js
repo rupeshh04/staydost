@@ -65,11 +65,12 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'StayDost API is running', timestamp: new Date().toISOString() });
 });
 
-// ─── Serve React Frontend in Production ────────────────────────────────────
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client', 'dist')));
+// ─── Serve React Frontend ──────────────────────────────────────────────────
+const distPath = path.join(__dirname, 'client', 'dist');
+if (require('fs').existsSync(distPath)) {
+  app.use(express.static(distPath));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+    res.sendFile(path.join(distPath, 'index.html'));
   });
 }
 
