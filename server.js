@@ -22,9 +22,17 @@ connectDB();
 
 // ─── Security Middleware ────────────────────────────────────────────────────
 app.use(helmet({ contentSecurityPolicy: false })); // CSP disabled so we can serve React
+const allowedOrigins = process.env.CLIENT_URL
+  ? [process.env.CLIENT_URL]
+  : ['http://localhost:5173'];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow same-origin requests (no origin header) and configured origins
+      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   })
 );
@@ -68,9 +76,14 @@ if (process.env.NODE_ENV === 'production') {
 // ─── Global Error Handler ───────────────────────────────────────────────────
 app.use(errorHandler);
 
-// ─── Start Server ───────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 StayDost server running on http://localhost:${PORT}`);
-  console.log(`   Mode: ${process.env.NODE_ENV || 'development'}`);
-});
+// ─── Start Server (local dev only) ────────────────────────────────────────
+if (process.env.NODE_ENV !== 'production' || require.main === module) {
+  const PORT = process.env.PORT || 5001;
+  app.listen(PORT, () => {
+    console.log(`🚀 StayDost server running on http://localhost:${PORT}`);
+    console.log(`   Mode: ${process.env.NODE_ENV || 'development'}`);
+  });
+}
+
+// ─── Export for Vercel Serverless ──────────────────────────────────────────
+module.exports = app;
