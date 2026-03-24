@@ -12,7 +12,7 @@ const getProperties = async (req, res, next) => {
     // Base filter: only approved listings visible to public
     const filter = { status: 'approved', available: true };
 
-    if (type && ['PG', 'Flat'].includes(type)) filter.type = type;
+    if (type && ['PG', 'Flat', 'Room', 'Hostel'].includes(type)) filter.type = type;
     if (location) filter.location = { $regex: location, $options: 'i' };
     if (gender && ['Male', 'Female', 'Any'].includes(gender)) filter.gender = gender;
     if (featured === 'true') filter.featured = true;

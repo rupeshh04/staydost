@@ -15,7 +15,7 @@ const router = express.Router();
 
 const propertyValidation = [
   body('title').trim().notEmpty().withMessage('Title is required'),
-  body('type').isIn(['PG', 'Flat']).withMessage('Type must be PG or Flat'),
+  body('type').isIn(['PG', 'Flat', 'Room', 'Hostel']).withMessage('Type must be PG, Flat, Room, or Hostel'),
   body('location').trim().notEmpty().withMessage('Location is required'),
   body('price').isNumeric().withMessage('Price must be a number'),
 ];

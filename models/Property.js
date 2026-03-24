@@ -10,7 +10,7 @@ const propertySchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['PG', 'Flat'],
+      enum: ['PG', 'Flat', 'Room', 'Hostel'],
       required: [true, 'Property type is required'],
     },
     location: {
