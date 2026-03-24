@@ -55,6 +55,28 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ─── API Routes ─────────────────────────────────────────────────────────────
+// Health + debug (no DB needed)
+app.get('/api/health', (req, res) => {
+  res.json({ success: true, message: 'StayDost API is running', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/debug-path', (req, res) => {
+  const fs = require('fs');
+  const possibleDists = [
+    path.join(__dirname, 'client', 'dist'),
+    path.join(process.cwd(), 'client', 'dist'),
+    '/var/task/client/dist',
+  ];
+  res.json({
+    __dirname,
+    cwd: process.cwd(),
+    distPath: possibleDists.find(p => fs.existsSync(path.join(p, 'index.html'))),
+    mongoUriSet: !!process.env.MONGODB_URI,
+    mongoUriPrefix: process.env.MONGODB_URI ? process.env.MONGODB_URI.slice(0, 20) + '...' : 'NOT SET',
+    nodeEnv: process.env.NODE_ENV,
+  });
+});
+
 // Ensure MongoDB is connected before any API handler runs (serverless-safe)
 app.use('/api', async (req, res, next) => {
   try {
@@ -70,11 +92,6 @@ app.use('/api/properties', propertyRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/users', userRoutes);
 
-// ─── Health Check ───────────────────────────────────────────────────────────
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'StayDost API is running', timestamp: new Date().toISOString() });
-});
-
 // ─── Serve React Frontend ──────────────────────────────────────────────────
 // Try multiple possible paths for the dist folder (local vs Vercel serverless)
 const fs = require('fs');
@@ -84,10 +101,6 @@ const possibleDists = [
   '/var/task/client/dist',
 ];
 const distPath = possibleDists.find(p => fs.existsSync(path.join(p, 'index.html')));
-
-app.get('/api/debug-path', (req, res) => {
-  res.json({ __dirname, cwd: process.cwd(), distPath, possibleDists: possibleDists.map(p => ({ p, exists: fs.existsSync(p) })) });
-});
 
 if (distPath) {
   app.use(express.static(distPath));
