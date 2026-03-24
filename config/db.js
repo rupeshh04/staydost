@@ -17,7 +17,8 @@ const connectDB = async () => {
     });
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
-    process.exit(1);
+    // Don't call process.exit(1) — it kills the serverless function
+    // The app will start but API routes will fail until DB is connected
   }
 };
 
