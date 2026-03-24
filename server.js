@@ -66,11 +66,27 @@ app.get('/api/health', (req, res) => {
 });
 
 // ─── Serve React Frontend ──────────────────────────────────────────────────
-const distPath = path.join(__dirname, 'client', 'dist');
-if (require('fs').existsSync(distPath)) {
+// Try multiple possible paths for the dist folder (local vs Vercel serverless)
+const fs = require('fs');
+const possibleDists = [
+  path.join(__dirname, 'client', 'dist'),
+  path.join(process.cwd(), 'client', 'dist'),
+  '/var/task/client/dist',
+];
+const distPath = possibleDists.find(p => fs.existsSync(path.join(p, 'index.html')));
+
+app.get('/api/debug-path', (req, res) => {
+  res.json({ __dirname, cwd: process.cwd(), distPath, possibleDists: possibleDists.map(p => ({ p, exists: fs.existsSync(p) })) });
+});
+
+if (distPath) {
   app.use(express.static(distPath));
   app.get('*', (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
+  });
+} else {
+  app.get('*', (req, res) => {
+    res.status(503).send('Frontend not built. distPath not found. Checked: ' + possibleDists.join(', '));
   });
 }
 
