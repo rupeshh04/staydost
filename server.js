@@ -17,8 +17,8 @@ const userRoutes = require('./routes/users');
 
 const app = express();
 
-// ─── Connect Database ───────────────────────────────────────────────────────
-connectDB();
+// ─── Database connection is established lazily per-request (serverless-safe)
+// connectDB() is awaited in the /api middleware below
 
 // ─── Security Middleware ────────────────────────────────────────────────────
 app.use(helmet({ contentSecurityPolicy: false })); // CSP disabled so we can serve React
@@ -55,6 +55,16 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ─── API Routes ─────────────────────────────────────────────────────────────
+// Ensure MongoDB is connected before any API handler runs (serverless-safe)
+app.use('/api', async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(503).json({ success: false, message: 'Database unavailable. Please try again.' });
+  }
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/leads', leadRoutes);

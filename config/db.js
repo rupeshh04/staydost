@@ -1,25 +1,35 @@
 const mongoose = require('mongoose');
 
-/**
- * Connect to MongoDB database
- */
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+// Cached connection for serverless — reuse between warm invocations
+let _connectionPromise = null;
 
-    mongoose.connection.on('error', (err) => {
-      console.error('❌ MongoDB error:', err);
+const connectDB = () => {
+  // Reuse existing open connection (warm Lambda / Vercel function)
+  if (mongoose.connection.readyState === 1) return Promise.resolve();
+
+  // Reuse in-flight promise (concurrent requests during cold start)
+  if (_connectionPromise) return _connectionPromise;
+
+  _connectionPromise = mongoose
+    .connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+    })
+    .then((conn) => {
+      console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+      mongoose.connection.on('error', (err) => console.error('❌ MongoDB error:', err));
+      mongoose.connection.on('disconnected', () => {
+        console.warn('⚠️  MongoDB disconnected — will reconnect on next request');
+        _connectionPromise = null;
+      });
+    })
+    .catch((err) => {
+      console.error('❌ Failed to connect to MongoDB:', err.message);
+      _connectionPromise = null; // reset so next request retries
+      throw err;
     });
 
-    mongoose.connection.on('disconnected', () => {
-      console.warn('⚠️  MongoDB disconnected');
-    });
-  } catch (error) {
-    console.error('❌ Failed to connect to MongoDB:', error.message);
-    // Don't call process.exit(1) — it kills the serverless function
-    // The app will start but API routes will fail until DB is connected
-  }
+  return _connectionPromise;
 };
 
 module.exports = { connectDB };
