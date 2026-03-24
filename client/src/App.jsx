@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 // Layout components
@@ -25,10 +25,22 @@ import ManageLeads from './pages/admin/ManageLeads';
 import ManageUsers from './pages/admin/ManageUsers';
 import ChangePassword from './pages/admin/ChangePassword';
 
+// Public layout (Navbar + Footer wrapper)
+const PublicLayout = () => (
+  <>
+    <Navbar />
+    <main>
+      <Outlet />
+    </main>
+    <Footer />
+    <WhatsAppButton />
+  </>
+);
+
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <BrowserRouter>
         <Routes>
           {/* ─── Admin Login (no Navbar/Footer) ─── */}
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -52,27 +64,15 @@ export default function App() {
             <Route path="change-password" element={<ChangePassword />} />
           </Route>
 
-          {/* ─── Public Routes (with Navbar + Footer) ─── */}
-          <Route
-            path="/*"
-            element={
-              <>
-                <Navbar />
-                <main>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/properties" element={<Properties />} />
-                    <Route path="/properties/:id" element={<PropertyDetail />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/submit-property" element={<SubmitProperty />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </main>
-                <Footer />
-                <WhatsAppButton />
-              </>
-            }
-          />
+          {/* ─── Public Routes (with Navbar + Footer via Outlet) ─── */}
+          <Route element={<PublicLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/properties" element={<Properties />} />
+            <Route path="/properties/:id" element={<PropertyDetail />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/submit-property" element={<SubmitProperty />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
