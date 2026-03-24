@@ -1,4 +1,7 @@
-require('dotenv').config();
+// Only load .env file in local development — Vercel injects env vars directly
+if (!process.env.MONGODB_URI) {
+  require('dotenv').config();
+}
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
