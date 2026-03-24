@@ -11,6 +11,26 @@
     <title>StayDost — PG & Flat Finder</title>
   </head>
   <body>
+    <script>
+      window.addEventListener('error', function(e) {
+        var root = document.getElementById('root');
+        if (root && !root.innerHTML.trim()) {
+          root.innerHTML = '<div style="padding:2rem;font-family:monospace;color:#c00;background:#fff">' +
+            '<h2>JS Error (before React)</h2>' +
+            '<pre style="white-space:pre-wrap;word-break:break-word">' + (e.message || '') + '\n' + (e.filename || '') + ':' + e.lineno + '\n' + (e.error && e.error.stack ? e.error.stack : '') + '</pre>' +
+            '</div>';
+        }
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        var root = document.getElementById('root');
+        if (root && !root.innerHTML.trim()) {
+          root.innerHTML = '<div style="padding:2rem;font-family:monospace;color:#c00;background:#fff">' +
+            '<h2>Unhandled Promise Rejection</h2>' +
+            '<pre style="white-space:pre-wrap;word-break:break-word">' + (e.reason ? (e.reason.stack || String(e.reason)) : 'unknown') + '</pre>' +
+            '</div>';
+        }
+      });
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
