@@ -25,20 +25,17 @@ const app = express();
 
 // ─── Security Middleware ────────────────────────────────────────────────────
 app.use(helmet({ contentSecurityPolicy: false })); // CSP disabled so we can serve React
-const allowedOrigins = process.env.CLIENT_URL
-  ? [process.env.CLIENT_URL]
-  : ['http://localhost:5173'];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow same-origin requests (no origin header) and configured origins
-      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-      callback(new Error('Not allowed by CORS'));
-    },
-    credentials: true,
-  })
-);
+// NOTE: CORS is applied only to /api routes (not static assets).
+// Static assets are loaded with the `crossorigin` attribute which sends an Origin header —
+// running them through CORS middleware with a strict origin check causes the server to
+// respond with a CORS error (JSON) instead of the actual file, resulting in a blank page.
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://staydost.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:5001',
+].filter(Boolean);
 
 // ─── Rate Limiting ──────────────────────────────────────────────────────────
 const limiter = rateLimit({
@@ -81,6 +78,14 @@ app.get('/api/debug-path', (req, res) => {
 });
 
 // Ensure MongoDB is connected before any API handler runs (serverless-safe)
+app.use('/api', cors({
+  origin: (origin, callback) => {
+    // Allow same-origin requests (no origin header) and configured origins
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+}));
 app.use('/api', async (req, res, next) => {
   try {
     await connectDB();
