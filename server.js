@@ -53,7 +53,7 @@ app.use('/api', limiter);
 // ─── General Middleware ─────────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-if (process.env.NODE_ENV === 'development') {
+if (!process.env.VERCEL) {
   app.use(morgan('dev'));
 }
 
@@ -120,7 +120,8 @@ if (distPath) {
 app.use(errorHandler);
 
 // ─── Start Server (local dev only) ────────────────────────────────────────
-if (process.env.NODE_ENV !== 'production' || require.main === module) {
+// require.main === module is false when Vercel imports this file, true when run directly
+if (require.main === module) {
   const PORT = process.env.PORT || 5001;
   app.listen(PORT, () => {
     console.log(`🚀 StayDost server running on http://localhost:${PORT}`);
