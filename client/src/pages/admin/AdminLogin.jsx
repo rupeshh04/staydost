@@ -95,7 +95,7 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        <p className="al-hint">Default: admin@staydost.com / admin123</p>
+        {/* <p className="al-hint">Default: admin@staydost.com / admin123</p> */}
       </div>
     </div>
   );
