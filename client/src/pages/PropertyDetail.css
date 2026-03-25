@@ -1,5 +1,8 @@
 /* ===== PropertyDetail ===== */
-.pd-page { padding-bottom: 60px; }
+.pd-page {
+  padding-top: calc(var(--navbar-height) + 8px);
+  padding-bottom: 60px;
+}
 
 .pd-topbar {
   display: flex;

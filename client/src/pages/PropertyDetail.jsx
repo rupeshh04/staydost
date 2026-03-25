@@ -4,7 +4,7 @@ import { propertyAPI } from '../services/api';
 import { formatPrice, formatDate, amenityIcon, whatsappLink } from '../utils/helpers';
 import LeadForm from '../components/LeadForm';
 import PropertyCard from '../components/PropertyCard';
-import { FaMapMarkerAlt, FaBed, FaRupeeSign, FaWhatsapp, FaPhoneAlt, FaCalendarAlt, FaArrowLeft, FaShare, FaHeart, FaChevronLeft, FaChevronRight, FaEye } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBed, FaWhatsapp, FaPhoneAlt, FaCalendarAlt, FaArrowLeft, FaShare, FaHeart, FaChevronLeft, FaChevronRight, FaEye } from 'react-icons/fa';
 import './PropertyDetail.css';
 
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '917279937535';
@@ -184,10 +184,8 @@ export default function PropertyDetail() {
             {/* Price */}
             <div className="pd-price-box">
               <span className="pd-price">
-                <FaRupeeSign className="pd-price-icon" />
-                {formatPrice(property.price)}
+                {formatPrice(property.price, property.priceType || 'month')}
               </span>
-              <span className="pd-price-type">/ {property.priceType || 'month'}</span>
             </div>
 
             {/* Description */}
@@ -231,8 +229,7 @@ export default function PropertyDetail() {
         <aside className="pd-sidebar">
           <div className="pd-cta-card">
             <div className="pd-cta-price">
-              ₹{formatPrice(property.price)}
-              <span className="pd-cta-price-type"> / {property.priceType || 'month'}</span>
+              {formatPrice(property.price, property.priceType || 'month')}
             </div>
             <div className="pd-cta-location">
               <FaMapMarkerAlt /> {property.location}, {property.city}
@@ -274,7 +271,7 @@ export default function PropertyDetail() {
 
           <div className="pd-trust-box">
             <div className="pd-trust-item">✅ Verified Listing</div>
-            <div className="pd-trust-item">🏠 Zero Brokerage</div>
+            <div className="pd-trust-item"> 💼 Brokerage charge: First time only — 10% of monthly rent</div>
             <div className="pd-trust-item">📞 Quick Response</div>
           </div>
         </aside>

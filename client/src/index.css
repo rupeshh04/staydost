@@ -74,6 +74,15 @@ ul, ol { list-style: none; }
 }
 .page-wrapper { padding-top: calc(var(--navbar-height) + 24px); padding-bottom: 48px; }
 
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding-top: calc(var(--navbar-height) + 16px);
+  }
+  .container {
+    padding: 0 14px;
+  }
+}
+
 /* Flex helpers */
 .flex { display: flex; }
 .flex-center { display: flex; align-items: center; justify-content: center; }
