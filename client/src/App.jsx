@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
@@ -26,16 +27,42 @@ import ManageUsers from './pages/admin/ManageUsers';
 import ChangePassword from './pages/admin/ChangePassword';
 
 // Public layout (Navbar + Footer wrapper)
-const PublicLayout = () => (
-  <>
-    <Navbar />
-    <main>
-      <Outlet />
-    </main>
-    <Footer />
-    <WhatsAppButton />
-  </>
-);
+const PublicLayout = () => {
+  const [hideFooterInMobileApp, setHideFooterInMobileApp] = useState(false);
+
+  useEffect(() => {
+    const standaloneDisplayMode = window.matchMedia('(display-mode: standalone)');
+    const mobileViewport = window.matchMedia('(max-width: 768px)');
+
+    const updateFooterVisibility = () => {
+      const isStandalone = standaloneDisplayMode.matches || window.navigator.standalone === true;
+      setHideFooterInMobileApp(isStandalone && mobileViewport.matches);
+    };
+
+    updateFooterVisibility();
+
+    standaloneDisplayMode.addEventListener('change', updateFooterVisibility);
+    mobileViewport.addEventListener('change', updateFooterVisibility);
+    window.addEventListener('resize', updateFooterVisibility);
+
+    return () => {
+      standaloneDisplayMode.removeEventListener('change', updateFooterVisibility);
+      mobileViewport.removeEventListener('change', updateFooterVisibility);
+      window.removeEventListener('resize', updateFooterVisibility);
+    };
+  }, []);
+
+  return (
+    <>
+      <Navbar />
+      <main>
+        <Outlet />
+      </main>
+      {!hideFooterInMobileApp && <Footer />}
+      <WhatsAppButton />
+    </>
+  );
+};
 
 export default function App() {
   return (

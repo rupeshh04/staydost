@@ -4,6 +4,9 @@
   "description": "StayDost — Full-stack PG & Flat Finder Platform for India",
   "main": "server.js",
   "scripts": {
+    "free-port-5001": "sh -c 'PIDS=$(lsof -ti:5001); if [ -n \"$PIDS\" ]; then echo \"Freeing port 5001: $PIDS\"; kill -15 $PIDS; fi'",
+    "preserver": "npm run free-port-5001",
+    "predev": "npm run free-port-5001",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm run dev --prefix client",
