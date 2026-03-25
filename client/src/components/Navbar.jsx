@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { FaHome, FaBars, FaTimes, FaUserShield, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaBars, FaTimes, FaUserShield, FaSignOutAlt, FaSearch, FaEnvelope, FaPlusCircle } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
@@ -64,7 +64,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile dropdown menu (tablets: 769–900px) */}
       {menuOpen && (
         <div className="mobile-menu">
           <NavLink to="/" end onClick={close} className="mobile-link">Home</NavLink>
@@ -81,6 +81,37 @@ const Navbar = () => {
           )}
         </div>
       )}
+
+      {/* Bottom Tab Bar — phones only (≤768px) */}
+      <div className="bottom-tabbar">
+        <NavLink to="/" end className={({ isActive }) => isActive ? 'tab-item active' : 'tab-item'}>
+          <FaHome />
+          <span>Home</span>
+        </NavLink>
+        <NavLink to="/properties" className={({ isActive }) => isActive ? 'tab-item active' : 'tab-item'}>
+          <FaSearch />
+          <span>Browse</span>
+        </NavLink>
+        <NavLink to="/contact" className={({ isActive }) => isActive ? 'tab-item active' : 'tab-item'}>
+          <FaEnvelope />
+          <span>Contact</span>
+        </NavLink>
+        <NavLink to="/submit-property" className={({ isActive }) => isActive ? 'tab-item active' : 'tab-item'}>
+          <FaPlusCircle />
+          <span>List</span>
+        </NavLink>
+        {isAdmin ? (
+          <NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'tab-item active' : 'tab-item'}>
+            <FaUserShield />
+            <span>Admin</span>
+          </NavLink>
+        ) : (
+          <NavLink to="/admin/login" className={({ isActive }) => isActive ? 'tab-item active' : 'tab-item'}>
+            <FaUserShield />
+            <span>Login</span>
+          </NavLink>
+        )}
+      </div>
     </nav>
   );
 };

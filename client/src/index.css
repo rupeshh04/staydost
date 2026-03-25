@@ -53,6 +53,13 @@ body {
   min-height: 100vh;
 }
 
+/* Extra bottom space on phones so content clears the tab bar */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  }
+}
+
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; font-family: var(--font); border: none; }
