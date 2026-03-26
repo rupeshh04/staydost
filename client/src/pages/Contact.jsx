@@ -6,7 +6,7 @@ import './Contact.css';
 
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '917279937535';
 const ADMIN_PHONE = import.meta.env.VITE_ADMIN_PHONE || '+91-7279937535';
-const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'hello@staydost.com';
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'admin@staydost.com';
 
 export default function Contact() {
   const [form, setForm] = useState({ userName: '', userPhone: '', userEmail: '', message: '' });
